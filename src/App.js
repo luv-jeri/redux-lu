@@ -1,45 +1,24 @@
 import './App.css';
 import Count from './pages/count';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 
-// its a reducer
-const count = (state = 0, action) => {
-  console.log('count action ', action);
-  if (action.type === 'inc') {
-    return state + 1;
-  }
-  if (action.type === 'dec') {
-    return state - 1;
-  }
-  return state;
-};
+import { name, count, users } from './reducers/index';
 
-const user = (state = {}, action) => {
-  console.log(' user action ', action);
-  if (action.type === 'set') {
-    return { name: 'Sanjay', isLogged: true };
-  }
-  if (action.type === 'delete') {
-    return {};
-  }
-  return state;
-};
+import Thunk from 'redux-thunk';
 
-const rootReducer = combineReducers({ count, user });
+const rootReducer = combineReducers({ count, name, users });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(Thunk));
 
 store.subscribe(() => {
-  console.log('count changed', store.getState());
+  console.log('Store changed', store.getState());
 });
-
-store.dispatch({ type: 'set' });
 
 function App() {
   return (
     <Provider store={store}>
-      <Count></Count>
+      <Count />
     </Provider>
   );
 }

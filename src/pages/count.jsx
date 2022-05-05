@@ -48,7 +48,11 @@ const Count = () => {
       <button
         onClick={async () => {
           // dispatch(await fetchAwait());
+
+
           dispatch(fetchMiddleware());
+
+          
         }}
       >
         FETCH
